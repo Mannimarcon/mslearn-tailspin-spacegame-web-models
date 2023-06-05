@@ -24,21 +24,21 @@ steps:
     arguments: '--no-restore --configuration $(buildConfiguration)'
     projects: '**/*.csproj'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2 # Crea un pacchetto del progetto con versione 1.0.0.
   displayName: 'Pack the project - $(buildConfiguration)'
   inputs:
-    command: 'pack'
+    command: 'pack' 
     projects: '**/*.csproj'
     arguments: '--no-build --configuration $(buildConfiguration)'
     versioningScheme: byPrereleaseNumber
     majorVersion: '1'
-    minorVersion: '0'
+    minorVersion: '1'
     patchVersion: '0'
  
-- task: NuGetCommand@2
+- task: NuGetCommand@2 # Esegue il push del pacchetto nel feed di Azure Artifacts Tailspin.SpaceGame.Web.Models.
   displayName: 'Publish NuGet package'
   inputs:
-    command: push
+    command: push 
     feedPublish: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
     allowPackageConflicts: true
   condition: succeeded()
